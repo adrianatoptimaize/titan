@@ -53,7 +53,7 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
             Object o = prop.getValue();
         }
         n1.query().relations();
-        assertEquals(10.5, n1.getProperty(weight));
+        assertEquals(10.5d, (double)n1.getProperty(weight), 0d);
     }
 
     @Test
@@ -421,15 +421,15 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
         TitanEdge e = n3.addEdge(knows, n1);
         e.setProperty(id, 111);
         n3.addProperty(id, 445);
-        assertEquals(111, e.getProperty(id));
+        assertEquals(111, (int)e.getProperty(id));
         clopen();
         Object eid = e.getId();
         long nid = n3.getID();
 
         n3 = tx.getVertex(nid);
-        assertEquals(445, n3.getProperty("uid"));
+        assertEquals(445, (int)n3.getProperty("uid"));
         e = Iterables.getOnlyElement(n3.getTitanEdges(OUT, tx.getEdgeLabel("knows")));
-        assertEquals(111, e.getProperty("uid"));
+        assertEquals(111, (int)e.getProperty("uid"));
         assertEquals(e, tx.getEdge(eid));
         assertEquals(e, tx.getEdge(eid.toString()));
         TitanProperty p = Iterables.getOnlyElement(n3.getProperties("uid"));
@@ -440,7 +440,7 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
         clopen();
 
         n3 = tx.getVertex(nid);
-        assertEquals(353, n3.getProperty("uid"));
+        assertEquals(353, (int)n3.getProperty("uid"));
         TitanEdge e2 = n3.addEdge("knows", tx.addVertex());
     }
 
@@ -569,7 +569,7 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
 
         assertEquals(1,Iterables.size(v3.getEdges(Direction.BOTH)));
         e = (TitanEdge) Iterables.getOnlyElement(v1.getEdges(Direction.OUT, "connect"));
-        assertEquals(10,e.getProperty("time"));
+        assertEquals(10,(int)e.getProperty("time"));
         assertEquals(v3,e.getProperty("link"));
 
         clopen();
@@ -583,7 +583,7 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
 
         assertEquals(1,Iterables.size(v3.getEdges(Direction.BOTH)));
         e = (TitanEdge) Iterables.getOnlyElement(v1.getEdges(Direction.OUT, "connect"));
-        assertEquals(10,e.getProperty("time"));
+        assertEquals(10,(int)e.getProperty("time"));
         assertEquals(v3,e.getProperty("link"));
 
     }
@@ -660,23 +660,23 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
             assertEquals(5,((Number)Iterables.getOnlyElement(v.getEdges(Direction.OUT,"knows")).getProperty("time")).intValue()%10);
         }
         e3.setProperty("time",35);
-        assertEquals(35,e3.getProperty("time"));
+        assertEquals(35,(int)e3.getProperty("time"));
 
         graph.commit();
 
-        assertEquals(35,e3.getProperty("time"));
+        assertEquals(35,(int)e3.getProperty("time"));
         e3 = graph.getEdge(e3);
         e3.setProperty("time",45);
-        assertEquals(45,e3.getProperty("time"));
+        assertEquals(45,(int)e3.getProperty("time"));
 
-        assertEquals(15,e2.getProperty("time"));
+        assertEquals(15,(int)e2.getProperty("time"));
         e2.setProperty("time",25);
-        assertEquals(25,e2.getProperty("time"));
+        assertEquals(25,(int)e2.getProperty("time"));
 
-        assertEquals(35,v1.getProperty("age"));
-        assertEquals(55,v3.getProperty("age"));
+        assertEquals(35,(int)v1.getProperty("age"));
+        assertEquals(55,(int)v3.getProperty("age"));
         v3.setProperty("age", 65);
-        assertEquals(65, v3.getProperty("age"));
+        assertEquals(65, (int)v3.getProperty("age"));
         e1 = graph.getEdge(e1);
 
         for (Vertex v : new Vertex[]{v1,v2,v3}) {
@@ -687,17 +687,17 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
 
         graph.commit();
 
-        assertEquals(45,e3.getProperty("time"));
-        assertEquals(5,e1.getProperty("time"));
+        assertEquals(45,(int)e3.getProperty("time"));
+        assertEquals(5,(int)e1.getProperty("time"));
 
         try {
             //TODO: how to address this? Only allow transactional passing for vertices?
-            assertEquals(25,e2.getProperty("time"));
+            assertEquals(25,(int)e2.getProperty("time"));
             fail();
         } catch (InvalidElementException e) {}
 
-        assertEquals(35, v1.getProperty("age"));
-        assertEquals(65,v3.getProperty("age"));
+        assertEquals(35, (int)v1.getProperty("age"));
+        assertEquals(65,(int)v3.getProperty("age"));
 
         for (Vertex v : new Vertex[]{v1,v2,v3}) {
             assertEquals(2,v.query().direction(Direction.BOTH).labels("knows").count());
@@ -868,12 +868,12 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
         assertEquals(e, Iterables.getOnlyElement(n1.getTitanEdges(BOTH, connect)));
 
         e = Iterables.getOnlyElement(n2.getTitanEdges(OUT, tx.getEdgeLabel("knows")));
-        assertEquals(3.0, e.getProperty(weight));
+        assertEquals(3.0d, (double)e.getProperty(weight), 0d);
         assertEquals("HasProperties TitanRelation", e.getProperty(name));
         n3 = e.getVertex(IN);
 
         e = Iterables.getOnlyElement(n3.getTitanEdges(OUT, tx.getEdgeLabel("knows")));
-        assertEquals(111, e.getProperty(id));
+        assertEquals(111, (int)e.getProperty(id));
 
         assertEquals(4, Iterables.size(n3.getEdges()));
 
@@ -1127,7 +1127,7 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
             for (TitanEdge r : n.getTitanEdges(OUT, knows)) {
                 TitanVertex n2 = r.getOtherVertex(n);
                 int idsum = ((Number)n.getProperty(id)).intValue() + ((Number)n2.getProperty(id)).intValue();
-                assertEquals(idsum, r.getProperty(id));
+                assertEquals(idsum, (int)r.getProperty(id));
                 double k = ((Number)r.getProperty(weight)).doubleValue() / 1.5;
                 int ki = (int) k;
                 assertEquals(i + "-" + ki, r.getProperty(name));

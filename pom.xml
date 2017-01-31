@@ -67,7 +67,7 @@
         <cassandra.ordered.dir>${project.build.directory}/cassandra-ordered-tmp/workdir</cassandra.ordered.dir>
         <titan.testdir>${project.build.directory}/titan-test</titan.testdir>
         <!-- Required for PMD plugin. Used for compiler plugin -->
-        <targetJdk>1.6</targetJdk>
+        <targetJdk>1.8</targetJdk>
     </properties>
     <modules>
         <module>titan-core</module>
@@ -134,8 +134,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>2.5.1</version>
                     <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
+                        <source>${targetJdk}</source>
+                        <target>${targetJdk}</target>
                     </configuration>
                 </plugin>
                 <plugin>
