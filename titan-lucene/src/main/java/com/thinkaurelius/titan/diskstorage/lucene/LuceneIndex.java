@@ -375,7 +375,21 @@ public class LuceneIndex implements IndexProvider {
         try {
             FileUtils.deleteDirectory(new File(basePath));
         } catch (IOException e) {
-            throw new PermanentStorageException("Could not delete lucene directory: " + basePath,e);
+            //Windows problem. Somehow file in folder still locked.
+            //got the hint to use System.gc() here http://stackoverflow.com/questions/11447241/force-delete-all-files-from-a-folder
+            //and here http://stackoverflow.com/questions/991489/i-cant-delete-a-file-in-java 
+            //and guess what it works.
+            try {
+                System.gc();
+                Thread.sleep(1000);
+            } catch (InterruptedException e1) {
+                //whatever
+            }
+            try {
+                FileUtils.deleteDirectory(new File(basePath));
+            } catch (IOException e2) {
+                throw new PermanentStorageException("Could not delete lucene directory: " + basePath, e2);
+            }
         }
     }
 
