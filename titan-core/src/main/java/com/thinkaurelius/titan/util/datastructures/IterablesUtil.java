@@ -4,6 +4,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 /**
@@ -18,7 +19,7 @@ public class IterablesUtil {
 
             @Override
             public Iterator<O> iterator() {
-                return Iterators.emptyIterator();
+                return Collections.emptyIterator();
             }
 
         };

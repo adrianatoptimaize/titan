@@ -5,6 +5,7 @@ import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -22,7 +23,7 @@ public class AllEdgesIterator implements Iterator<Edge> {
     private final Set<? extends Vertex> vertices;
     private final Iterator<? extends Vertex> vertexIter;
 
-    private Iterator<Edge> currentEdges = Iterators.emptyIterator();
+    private Iterator<Edge> currentEdges = Collections.emptyIterator();
 
     private Edge next;
 

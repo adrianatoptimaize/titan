@@ -44,7 +44,7 @@ public class QueryProcessor<Q extends Query<Q>,R> implements Iterable<R> {
 
     @Override
     public Iterator<R> iterator() {
-        if (optimal.isEmpty()) return Iterators.emptyIterator();
+        if (optimal.isEmpty()) return Collections.emptyIterator();
         else return new OuterIterator();
     }
 

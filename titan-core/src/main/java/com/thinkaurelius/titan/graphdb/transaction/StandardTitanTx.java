@@ -564,7 +564,7 @@ public class StandardTitanTx extends TitanBlueprintsTransaction {
 
         @Override
         public Iterator<TitanRelation> execute(final VertexCentricQuery query) {
-            if (query.getVertex().isNew()) return Iterators.emptyIterator();
+            if (query.getVertex().isNew()) return Collections.emptyIterator();
 
             final EdgeSerializer edgeSerializer = graph.getEdgeSerializer();
             FittedSliceQuery sq = edgeSerializer.getQuery(query);
