@@ -1,6 +1,6 @@
 package com.thinkaurelius.titan.graphdb.database;
 
-import com.carrotsearch.hppc.LongOpenHashSet;
+import com.carrotsearch.hppc.LongHashSet;
 import com.carrotsearch.hppc.LongSet;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Multimap;
@@ -290,7 +290,7 @@ public class EdgeSerializer {
         }
 
         //Write remaining properties
-        LongSet writtenTypes = new LongOpenHashSet(primaryKey.length + signature.length);
+        LongSet writtenTypes = new LongHashSet(primaryKey.length + signature.length);
         if (primaryKey.length>0 || signature.length>0) {
             for (long id : primaryKey) writtenTypes.add(id);
             for (long id : signature) writtenTypes.add(id);

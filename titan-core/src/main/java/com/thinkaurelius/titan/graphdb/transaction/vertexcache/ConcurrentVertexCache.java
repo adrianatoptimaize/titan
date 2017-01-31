@@ -1,7 +1,7 @@
 package com.thinkaurelius.titan.graphdb.transaction.vertexcache;
 
+import com.carrotsearch.hppc.LongObjectHashMap;
 import com.carrotsearch.hppc.LongObjectMap;
-import com.carrotsearch.hppc.LongObjectOpenHashMap;
 import com.carrotsearch.hppc.ObjectContainer;
 import com.carrotsearch.hppc.cursors.ObjectCursor;
 import com.google.common.base.Preconditions;
@@ -22,7 +22,7 @@ public class ConcurrentVertexCache implements VertexCache {
     private final LongObjectMap map;
 
     public ConcurrentVertexCache() {
-        map = new LongObjectOpenHashMap(defaultCacheSize);
+        map = new LongObjectHashMap(defaultCacheSize);
     }
 
 

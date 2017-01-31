@@ -1,7 +1,7 @@
 package com.thinkaurelius.titan.util.datastructures;
 
 import com.carrotsearch.hppc.LongIntMap;
-import com.carrotsearch.hppc.LongIntOpenHashMap;
+import com.carrotsearch.hppc.LongIntHashMap;
 import com.google.common.base.Preconditions;
 
 import java.util.Arrays;
@@ -22,7 +22,7 @@ public class ImmutableLongObjectMap implements Iterable<ImmutableLongObjectMap.E
         Preconditions.checkNotNull(keysUnsorted);
         Preconditions.checkNotNull(valuesUnsorted);
         Preconditions.checkArgument(size>=0);
-        LongIntMap indexmap = new LongIntOpenHashMap(size);
+        LongIntMap indexmap = new LongIntHashMap(size);
         for(int i=0;i<size;i++) {
             indexmap.put(keysUnsorted[i],i);
         }
