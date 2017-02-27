@@ -2,6 +2,7 @@ package com.thinkaurelius.titan.diskstorage;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.thinkaurelius.titan.core.Titan;
 import com.thinkaurelius.titan.core.TitanException;
 import com.thinkaurelius.titan.core.TitanFactory;
@@ -204,7 +205,12 @@ public class Backend {
                 public String toString() { return "ConfigurationRead"; }
             }, config.getLong(SETUP_WAITTIME_KEY, SETUP_WAITTIME_DEFAULT));
             if (!TitanConstants.VERSION.equals(version)) {
-                throw new TitanException("StorageBackend is incompatible with Titan version: " + TitanConstants.VERSION + " vs. " + version);
+                Set<String> versions = ImmutableSet.of(TitanConstants.VERSION, version);
+                if (versions.contains("0.3.2.1") && versions.contains("0.3.2")) {
+                    //that is fine. we have increased the version to 0.3.2.1 from 0.3.2 for our build.
+                } else {
+                    throw new TitanException("StorageBackend is incompatible with Titan version: " + TitanConstants.VERSION + " vs. " + version);
+                }
             }
         } catch (StorageException e) {
             throw new TitanException("Could not initialize backend", e);
